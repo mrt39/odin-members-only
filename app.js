@@ -280,4 +280,8 @@ app.post("/new-message", async (req, res, next) => {
 
 });
 
-app.listen(3000, () => console.log("app listening on port 3000!"));
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
+app.listen(port, () => console.log("app listening on port 3000!"));
