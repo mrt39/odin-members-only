@@ -1,5 +1,5 @@
 /////// app.js
-
+require('dotenv').config()
 const express = require("express");
 const path = require("path");
 const session = require("express-session");
@@ -13,8 +13,8 @@ const moment = require("moment"); //moment.js library for saving the time of the
 
 ///////database stuff
 
-const mongoDb = "mongodb+srv://chriscarter19822:aRZ3sh5fgnkwt5wf@gettingstarted.ogxgdib.mongodb.net/?retryWrites=true&w=majority";
-mongoose.connect("mongodb://127.0.0.1:27017/membersOnly")
+const mongoDb = process.env.MONGODB_URI;
+mongoose.connect(mongoDb)
 
 
 const userSchema = new mongoose.Schema({
@@ -86,7 +86,7 @@ passport.use(
 
 ///////////
 
-app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(session({ secret: process.env.MYSECRET, resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));

@@ -10,11 +10,16 @@
     Message: <%=post.content%>
     </p>
     <p>
+<!-- ONLY users that are members should be able to see the author and date of each message. -->
+<% if (currentUser) {%>
+    <% if (currentUser.membershipStatus===true) { %> 
     Created by: <%=post.creator.username%>
     </p>
     <p>
     Date: <%=post.date%>
     </p>
+    <% }  %>
+<% }  %>
 
 <% }) %>
 
