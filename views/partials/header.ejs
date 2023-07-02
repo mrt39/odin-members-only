@@ -10,13 +10,34 @@
   <nav class="navbar navbar-default">
     <div class="container">
       <div class="navbar-header">
-        <p class="navbar-brand">MEMBERS ONLY</p>
+        <p class="navbar-brand">MEMBERS ONLY APP</p> 
       </div>
+      <!-- this part is visible only if the user has logged in -->
+      <% if (currentUser) {%>
+      <ul class="nav navbar-text">
+        <li>Welcome back, <%= currentUser.username %></li>
+        <!-- this part is visible only if the user is logged in AND current user's (which we tap into via currentUser variable)  membershipStatus is true -->
+        <% if (currentUser.membershipStatus===true) { %> 
+        <li style="color: blueviolet;">Club Member</li>
+        <% }  %>
+      </ul>
         <ul class="nav navbar-nav navbar-right">
-          <!-- <li id="home"><a href="/">HOME</a></li>
-          <li id="about"><a href="/about">ABOUT US</a></li>
-          <li id="contact"><a href="/contact">CONTACT US</a></li> -->
+          <li><a href="/">HOME</a></li>
+          <li><a href="/join-the-club">JOIN THE CLUB</a></li>
+          <li><a href="/new-message">NEW MESSAGE</a></li>
+          <li><a href="/log-out">LOG OUT</a></li>
+        </ul> 
+
+        <!-- visible when the user is not logged in  -->
+      <% } else { %>
+        <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">HOME</a></li>
+        <li><a href="/login">LOGIN</a></li>
+        <li><a href="/sign-up">SIGN UP</a></li>
         </ul>
+      <%}%>
+
+
     </div>
   </nav>
 

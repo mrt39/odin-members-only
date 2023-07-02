@@ -1,32 +1,25 @@
 <%- include("partials/header"); -%>
-<h1>Welcome to members only app</h1>
+<h1>All Messages:</h1>
 
 
+<br><br>
+<%  allPosts.forEach(function(post){ %>
 
-
-
-<!-- this part is visible only if the user has logged in -->
-<% if (currentUser) {%>
-    <h1>WELCOME BACK <%= currentUser.username %></h1>
-    <a href="/log-out">LOG OUT</a>
-    <br><br>
+    <h3>Title: <%=post.title%></h3>
     <p>
-        Join the club if you know the password!: <a href="/join-the-club">JOIN THE CLUB</a>
+    Message: <%=post.content%>
     </p>
-<% } else { %>
-    Sign up here: <a href="/sign-up">SIGN UP</a>
-    <h3>Please log in: <a href="/login">LOGIN</a></h3>
-<%}%>
+    <p>
+    Created by: <%=post.creator.username%>
+    </p>
+    <p>
+    Date: <%=post.date%>
+    </p>
 
-<!-- this part is visible only if the current user's (which we tap into via currentUser variable)  membershipStatus is true -->
-<% if (currentUser) { %> 
-    
-    <% if (currentUser.membershipStatus===true) { %> 
-    <br><br>
-    <h1 style="color: blueviolet;">You are a club member!</h1>
-    <% }  %>
+<% }) %>
 
-<% }  %>
+<br><br>
+
 
 
 

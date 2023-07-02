@@ -1,0 +1,31 @@
+<%- include("partials/header"); -%>
+
+
+<h1>What is your message to the club, <u><%= currentUser.username %></u> ?</h1>
+<form action="" method="POST">
+
+    <label for="title">Title:</label>
+    <input name="title" type="text">
+    <br><br>
+    <label for="message">Message:</label>
+    <input name="message" type="text">
+    <br><br>
+    <button>Post Message</button>
+</form>
+
+
+<!-- this will activate if "errors" are sent to here from the POST route-->
+<% if (typeof errors!= "undefined") { %>
+
+    <br>
+    <ul>
+    <%  errors.forEach(function(error){ %>
+
+        <li class="errorMsg"><%=error.msg%></li>
+
+    <% }) %>
+    </ul>
+
+<% } %>
+
+<%- include("partials/footer"); -%>

@@ -9,6 +9,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
+const moment = require("moment"); //moment.js library for saving the time of the posts
 
 ///////database stuff
 
@@ -26,34 +27,18 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
-/* 
-const tom = new User({
-    username : "tomxd",
-    password: "keke",
-    firstName: "tom",
-    lastName: "kekcioglu",
-}); */
 
-//tom.save()
+const dateNow = moment() //using moment.js library to get the date in a format that mongo recognizes
 
 const Post = mongoose.model(
     "Post",
     new Schema({
       title: { type: String, required: true },
       content: { type: String, required: true },
-      creator: userSchema
+      creator: userSchema,
+      date: { type: Date, default:dateNow },
     })
 );
-
-/* const post1 = new Post({
-    title : "my post",
-    content: "yo this is the first post of history yo",
-    creator: tom
-});
-
-post1.save() */
-
-////////////////////
 
 const app = express();
 app.set("view engine", "ejs");
@@ -114,7 +99,15 @@ app.use(function(req, res, next) {
 });
 
 app.get("/", (req, res) => {
-    res.render("index", { user: req.user });
+
+    Post.find({}).then(allPosts => {
+  
+        res.render("index", {
+          user: req.user,
+          allPosts: allPosts
+          });
+    });
+      
 });
 
 app.get("/sign-up", (req, res) => res.render("sign-up-form"));
@@ -268,5 +261,23 @@ app.get("/log-out", (req, res, next) => {
     });
 });
 
+app.get("/new-message", (req, res) => res.render("new-message"));
+
+
+
+app.post("/new-message", async (req, res, next) => {
+    try {
+        const post = new Post({
+        title: req.body.title,
+        content: req.body.message,
+        creator: req.user,
+        });
+        await post.save();
+        res.redirect("/");
+    } catch(err) {
+        return next(err);
+    };
+
+});
 
 app.listen(3000, () => console.log("app listening on port 3000!"));
