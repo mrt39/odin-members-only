@@ -249,7 +249,7 @@ app.post("/join-the-club",
 }); 
 
 
-app.get("/login", (req, res) => res.render("join-the-club"));
+app.get("/login", (req, res) => res.render("login"));
 
 
 app.post("/login", 
@@ -258,6 +258,15 @@ passport.authenticate("local", {
     failureRedirect: "/"
   })
 );
+
+app.get("/log-out", (req, res, next) => {
+    req.logout(function (err) {
+      if (err) {
+        return next(err);
+      }
+      res.redirect("/");
+    });
+});
 
 
 app.listen(3000, () => console.log("app listening on port 3000!"));
