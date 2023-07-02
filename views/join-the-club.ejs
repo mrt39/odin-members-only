@@ -1,0 +1,27 @@
+<%- include("partials/header"); -%>
+
+
+<form action="" method="POST">
+
+    <label for="passcode">Secret Passcode:</label>
+    <input name="passcode" type="text">
+    <br><br>
+    <button>Join the Club</button>
+</form>
+
+
+<!-- this will activate if "errors" are sent to here from the POST route-->
+<% if (typeof errors!= "undefined") { %>
+
+    <br>
+    <ul>
+    <%  errors.forEach(function(error){ %>
+
+        <li class="errorMsg"><%=error.msg%></li>
+
+    <% }) %>
+    </ul>
+
+<% } %>
+
+<%- include("partials/footer"); -%>

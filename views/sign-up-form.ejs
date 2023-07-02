@@ -4,26 +4,52 @@
 <h1>Sign Up</h1>
 <form action="" method="POST">
 <label for="firstName">First Name:</label>
-<!-- The default value of the field depends on whether the "user" variable has been sent to the template
+<!-- The default value of these fields depends on whether the "user" variable has been sent to the template
 If called from the GET route it will be empty as this is a new form. 
 If called from a POST route it will contain the (invalid) value originally entered by the user.
-And that failed to pass our validation checks.  -->
-<input name="firstName" type="text" value= <%= undefined===user ? '' : user.firstName %> >
+And that failed to pass our validation checks. 
+SO, we check if the USER variable has been passed from app.js. 
+If it has, we have been sent here by the POST route, which means there is an error and we fill the forms with the user input -->
+<input name="firstName" type="text" value= 
+<% if (typeof user==="undefined") { %> 
+    "" 
+<% } else{ %>
+    <%= user.firstName %>
+<% }   %>
+>
+
 <br><br>
 <label for="lastName">Last Name:</label>
-<input name="lastName" type="text" value= <%= undefined===user ? '' : user.lastName %>>
+<input name="lastName" type="text" value= 
+<% if (typeof user==="undefined") { %> 
+    "" 
+<% } else{ %>
+    <%= user.lastName %>
+<% }   %>
+>
+
 <br><br>
-  <label for="username">Username:</label>
-  <input name="username" type="text" value= <%= undefined===user ? '' : user.username %>>
-  <br><br>
-  <label for="password">Password:</label>
-  <input name="password" type="password" >
-  <br><br>
-  <button>Sign Up</button>
+<label for="username">Username:</label>
+<input name="username" type="text" value= 
+<% if (typeof user==="undefined") { %> 
+    "" 
+<% } else{ %>
+    <%= user.username %>
+<% }   %>
+>
+
+<br><br>
+<label for="password">Password:</label>
+<input name="password" type="password" >
+<br><br>
+<label for="passwordConfirmation">Confirm Password:</label>
+<input name="passwordConfirmation" type="password" >
+<br><br>
+<button>Sign Up</button>
 </form>
 
 
-<!-- this will activate if "errors" are sent to here -->
+<!-- this will activate if "errors" are sent to here from the POST route-->
 <% if (typeof errors!= "undefined") { %>
 
     <br>
