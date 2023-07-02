@@ -1,0 +1,41 @@
+<%- include("partials/header"); -%>
+
+
+<h1>Sign Up</h1>
+<form action="" method="POST">
+<label for="firstName">First Name:</label>
+<!-- The default value of the field depends on whether the "user" variable has been sent to the template
+If called from the GET route it will be empty as this is a new form. 
+If called from a POST route it will contain the (invalid) value originally entered by the user.
+And that failed to pass our validation checks.  -->
+<input name="firstName" type="text" value= <%= undefined===user ? '' : user.firstName %> >
+<br><br>
+<label for="lastName">Last Name:</label>
+<input name="lastName" type="text" value= <%= undefined===user ? '' : user.lastName %>>
+<br><br>
+  <label for="username">Username:</label>
+  <input name="username" type="text" value= <%= undefined===user ? '' : user.username %>>
+  <br><br>
+  <label for="password">Password:</label>
+  <input name="password" type="password" >
+  <br><br>
+  <button>Sign Up</button>
+</form>
+
+
+<!-- this will activate if "errors" are sent to here -->
+<% if (typeof errors!= "undefined") { %>
+
+    <br>
+    <ul>
+    <%  errors.forEach(function(error){ %>
+
+        <li class="errorMsg"><%=error.msg%></li>
+
+    <% }) %>
+    </ul>
+
+<% } %>
+
+
+<%- include("partials/footer"); -%>
