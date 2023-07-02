@@ -208,16 +208,18 @@ app.post("/sign-up",
 app.get("/join-the-club", (req, res) => res.render("join-the-club"));
 
 
-/* app.post("/join-the-club", 
+app.post("/join-the-club", 
 
-  //validation and sanitization, using express-validator
+    //validation and sanitization, using express-validator
     //this is a custom validator from express-validatior
     //https://express-validator.github.io/docs/guides/customizing/
-    body('passwordConfirmation').custom((value, { req }) => {
-        return value === req.body.password;
+    body('passcode').custom((value, { req }) => {
+        return value === "666";
     })
     .escape()
-    .withMessage("Passwords don't match"),
+    .withMessage("Wrong passcode"),
+
+
 
     //after the validation, going forward with the route
     async (req, res, next) => {
@@ -226,52 +228,36 @@ app.get("/join-the-club", (req, res) => res.render("join-the-club"));
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
-
-            //we are defining the USER model here to give back the values to the form
-            const user = new User({
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                username: req.body.username,
-                password: ""
-            });
-
-            res.render("sign-up-form", {
-              user: user,
+            res.render("join-the-club", {
               errors: errors.array(),
             });
             return;
 
-            //data from form passed all the validation checks.
-          } else {
-            // Data from form is valid.
-                //encryipting password with bcrypt
-                bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
-                    // if err, do something
-                    if (err){
-                        console.log(err)
-                    }
-                    // otherwise, store hashedPassword in DB
-                    else{
-                        //adding it to db
-                        //using try catch etc, because async
-                        try {
-                            const user = new User({
-                            firstName: req.body.firstName,
-                            lastName: req.body.lastName,
-                            username: req.body.username,
-                            password: hashedPassword
-                            });
-                            await user.save();
-                            res.redirect("/");
-                        } catch(err) {
-                            return next(err);
-                        };
-                    } 
-                }); 
-          }
+        //data from form passed all the validation checks.
+        } else {
+            try {
+                //we have to change the field "membershipStatus" in the current user model to "true"
+                //we tap into current user with req.user
+                req.user.membershipStatus = true
+                await req.user.save();
+                res.redirect("/");
+            } catch(err) {
+                return next(err);
+            };
 
-}); */
+        } 
+}); 
 
+
+app.get("/login", (req, res) => res.render("join-the-club"));
+
+
+app.post("/login", 
+passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/"
+  })
+);
 
 
 app.listen(3000, () => console.log("app listening on port 3000!"));
